@@ -1,0 +1,9 @@
+{
+  "name": "dsh-codex-session-preset-probe",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Test-only probe: drives sessionController.create({agentPreset}) exactly like the new-session picker does, and records what the plugin pinned.",
+  "type": "module",
+  "main": "lib/index.js",
+  "dsh": { "bundle": { "patch": "./cordis.patch.yml" } }
+}

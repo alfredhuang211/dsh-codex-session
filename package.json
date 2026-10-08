@@ -1,0 +1,80 @@
+{
+  "name": "dsh-codex-session",
+  "version": "0.1.0",
+  "description": "DSH desktop plugin: choose a DSH-default or Codex session when creating a session. Codex sessions keep the DSH agent loop, tools and UI, but are served by the locally authenticated Codex App Server.",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "default": "./lib/index.js"
+    },
+    "./client": {
+      "default": "./lib/client.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "manifestVersion": 1,
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-api-remotes",
+        "@deepseek-ai/dsh-api-session-controller",
+        "@deepseek-ai/dsh-client-locale",
+        "@deepseek-ai/dsh-client-ui-conversation",
+        "@deepseek-ai/dsh-client-ui-settings-plugins"
+      ]
+    }
+  },
+  "engines": {
+    "node": "^22.19.0 || >=24.0.0",
+    "dsh": ">=0.2.0-rc.2"
+  },
+  "files": [
+    "LICENSE",
+    "README.md",
+    "SPEC-provider.md",
+    "cordis.patch.yml",
+    "lib/client.js",
+    "lib/index.js",
+    "lib/provider.js",
+    "scripts/bypass-check.mjs",
+    "scripts/live-check.mjs",
+    "scripts/models-check.mjs",
+    "scripts/preset-probe/cordis.patch.yml",
+    "scripts/preset-probe/lib/index.js",
+    "scripts/preset-probe/package.json",
+    "scripts/verify-preset-pin.sh"
+  ],
+  "keywords": [
+    "deepseek",
+    "deepseek-harness",
+    "dsh",
+    "dsh-plugin",
+    "codex"
+  ],
+  "author": "Alfred Huang",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alfredhuang/dsh-codex-session.git"
+  },
+  "homepage": "https://github.com/alfredhuang/dsh-codex-session#readme",
+  "bugs": {
+    "url": "https://github.com/alfredhuang/dsh-codex-session/issues"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "scripts": {
+    "test": "node --test",
+    "live-check": "node scripts/live-check.mjs",
+    "bypass-check": "node scripts/bypass-check.mjs",
+    "verify-preset-pin": "./scripts/verify-preset-pin.sh",
+    "models-check": "node scripts/models-check.mjs"
+  }
+}

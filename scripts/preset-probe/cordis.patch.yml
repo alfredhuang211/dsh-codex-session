@@ -1,0 +1,6 @@
+- insert:
+    - id: preset-probe
+      name: dsh-codex-session-preset-probe
+      config:
+        out: /tmp/dsh-codex-preset-pin/result.json
+        cwd: /tmp/dsh-codex-preset-pin/workspace

@@ -1,0 +1,11 @@
+# Local DSH profile backups captured while developing this plugin. These contain the
+# developer's own profile configuration and must never be published.
+.backup-desktop-profile-*/
+
+node_modules/
+*.tgz
+npm-debug.log*
+.DS_Store
+
+# Scratch state written by the live verification scripts.
+/tmp/

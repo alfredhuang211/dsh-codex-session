@@ -14,6 +14,32 @@ Codex 请求调用工具时，插件把它转成真正的 DSH `tool-call`，由 
 **前提**：目标设备已装 DSH 桌面版（≥ 0.2.0-rc.2），且 `codex` CLI 可用并已登录（`codex` 在 `PATH`
 上，或 `~/.codex` 已完成登录）。插件本身**零依赖**，安装时无需再拉取任何 npm 包。
 
+### 在哪里执行
+
+`desktop` 是 DSH 桌面 App **独占**的 profile。独立安装的 `dsh`（例如 `npm i -g @deepseek-ai/dsh`）
+不能管理它，会直接报错，`dsh --profile desktop --dump-config` 同样被拒：
+
+```
+error: profile "desktop" is managed exclusively by the Electron application
+```
+
+所以下文的 `dsh plugin` 命令必须走 App 自己的环境，三种入口都可以：
+
+1. **App 的插件安装窗口**（桌面端最省事）：输入框接受包名、GitHub 仓库地址或本地目录路径，
+   填 `https://github.com/alfredhuang211/dsh-codex-session` 即可。
+2. **App 的托盘终端**：其中的 `dsh` 是 App 内置的 shim，下文命令在这里可用（Windows 上 App 还会把
+   `dsh.cmd` / `pnpm` 放进 PATH）。
+3. 直接调用 App 打包的 host CLI（脚本化 / 自动化时用；内部路径随版本变化，下列按 0.2.0-rc.2 实测）：
+
+   ```sh
+   ELECTRON_RUN_AS_NODE=1 DSH_HOME=~/.dsh \
+     "/Applications/DeepSeek Harness.app/Contents/MacOS/DeepSeek Harness" \
+     --expose-internals "/Applications/DeepSeek Harness.app/Contents/Resources/app.asar/dsh/node_modules/@deepseek-ai/dsh-desktop-host/lib/cli.js" \
+     plugin --profile desktop add <spec>
+   ```
+
+### 安装命令
+
 ```sh
 # 推荐：锁定版本，上游后续改动不会影响你
 dsh plugin --profile desktop add git+https://github.com/alfredhuang211/dsh-codex-session.git#v0.1.0
@@ -47,6 +73,31 @@ cd ~/.dsh/profiles/desktop/node_modules/dsh-codex-session && npm run models-chec
 ```sh
 dsh plugin --profile desktop remove dsh-codex-session
 ```
+
+### 安装报 `ERR_PNPM_MINIMUM_RELEASE_AGE_VIOLATION`
+
+DSH 桌面端的插件安装走 pnpm 11，而 pnpm 11 默认 `minimumReleaseAge: 1440`（1 天）：profile 里
+**任何一个** registry 依赖只要发布不满 24 小时，整个安装就会中止并回滚——包括与它无关的本插件：
+
+```
+✗ Lockfile failed supply-chain policy check (5 entries ...)
+[ERR_PNPM_MINIMUM_RELEASE_AGE_VIOLATION] 1 lockfile entries failed verification:
+  dshmarket@1.66.11 was published at ..., within the minimumReleaseAge cutoff (...)
+```
+
+被拦下的通常**不是**本插件（git 依赖不受该策略约束），而是 profile 里已有的依赖。修法是在
+`~/.dsh/profiles/desktop/pnpm-workspace.yaml` 里把那个版本加进 `minimumReleaseAgeExclude`：
+
+```yaml
+minimumReleaseAgeExclude:
+  - dshmarket@1.66.6 || 1.66.11   # 正确：同一包名的多个版本写成一条并集
+  # - dshmarket@1.66.6
+  # - dshmarket@1.66.11           # 错误：pnpm 只认包名匹配到的第一条，第二行被静默忽略
+```
+
+改完直接重跑安装即可，不需要重启。两个容易踩的点：`dsh plugin` 会主动剥掉显式传入的
+`--config.minimumReleaseAge=0`，传 flag 绕不过去；而 App 托盘终端里的 `pnpm` shim 自带该 flag，
+所以只有 `dsh plugin` / 插件安装窗口这条路径会撞上这道闸。
 
 发布流程、版本升级与发布者注意事项见 **[PUBLISHING.md](PUBLISHING.md)**。
 
@@ -96,17 +147,11 @@ Session 级模型选择。
 「DSH 默认」的新会话也带到 Codex 上。Host 半因此在选择落定后把之前的默认写回，并且只在默认仍等于
 我们刚写入的值时才写——期间用户手动改过则尊重用户的改动。
 
-## 安装
-
-```sh
-dsh plugin --profile desktop add /absolute/path/to/dsh-codex-session
-dsh --profile desktop --dump-config
-```
+## 配置
 
 前置条件：本机 Codex 已登录（`codex login status`），且 `~/.codex/config.toml` 里
-`[model_providers.custom]` 指向可用后端（本机为本地 Codex 代理）。
-
-## 配置
+`[model_providers.custom]` 指向可用后端（本机为本地 Codex 代理）；用官方登录时对应
+`modelProvider: openai`。
 
 `cordis.patch.yml` 中 `codex-session` 行：
 

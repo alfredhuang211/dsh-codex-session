@@ -11,17 +11,44 @@ Codex 请求调用工具时，插件把它转成真正的 DSH `tool-call`，由 
 
 ## 安装
 
-```sh
-# 从 GitHub 直接安装（零依赖，不需要先发 npm）
-dsh plugin --profile desktop add git+https://github.com/alfredhuang211/dsh-codex-session.git
+**前提**：目标设备已装 DSH 桌面版（≥ 0.2.0-rc.2），且 `codex` CLI 可用并已登录（`codex` 在 `PATH`
+上，或 `~/.codex` 已完成登录）。插件本身**零依赖**，安装时无需再拉取任何 npm 包。
 
-# 或已发布到 npm 时：
-dsh plugin --profile desktop add dsh-codex-session
+```sh
+# 推荐：锁定版本，上游后续改动不会影响你
+dsh plugin --profile desktop add git+https://github.com/alfredhuang211/dsh-codex-session.git#v0.1.0
+
+# 跟随 main 的最新提交
+dsh plugin --profile desktop add git+https://github.com/alfredhuang211/dsh-codex-session.git
 ```
 
-装完**重启 DSH 桌面 App**。前提：目标设备已装 DSH 桌面版（≥ 0.2.0-rc.2），且 `codex` CLI 可用并已登录。
+装完**重启 DSH 桌面 App**（Host 半的 bundle patch 在启动时读取）。然后新建会话，输入框上方会出现
+「会话类型」选择器，Agent 预设里会多出 **Codex**。
 
-发布流程、锁版本、升级以及手动克隆等其他装法见 **[PUBLISHING.md](PUBLISHING.md)**。
+其他装法：
+
+```sh
+# 已发布到 npm 时
+dsh plugin --profile desktop add dsh-codex-session
+
+# 手动克隆（内网 / 离线 / 想改代码）
+git clone https://github.com/alfredhuang211/dsh-codex-session.git ~/plugins/dsh-codex-session
+dsh plugin --profile desktop add ~/plugins/dsh-codex-session
+```
+
+装完自检（可选，列出本机 Codex 真实提供的模型）：
+
+```sh
+cd ~/.dsh/profiles/desktop/node_modules/dsh-codex-session && npm run models-check
+```
+
+卸载：
+
+```sh
+dsh plugin --profile desktop remove dsh-codex-session
+```
+
+发布流程、版本升级与发布者注意事项见 **[PUBLISHING.md](PUBLISHING.md)**。
 
 ## 组成
 

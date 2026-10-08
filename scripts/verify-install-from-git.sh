@@ -30,10 +30,18 @@ fi
 rm -rf "$ROOT"
 mkdir -p "$ROOT/profiles"
 
-# A bare clone stands in for `git clone https://github.com/<you>/dsh-codex-session`.
-git clone --quiet --bare "$REPO" "$ORIGIN"
-echo "origin: $ORIGIN"
-echo "HEAD  : $(git --git-dir="$ORIGIN" rev-parse --short HEAD) $(git --git-dir="$ORIGIN" log -1 --pretty=%s)"
+# INSTALL_URL lets this run against the REAL remote (e.g. the published GitHub repo), so the same
+# assertions cover the path an actual new machine takes. Without it, a bare clone of the local
+# repository stands in for GitHub.
+INSTALL_URL="${INSTALL_URL:-}"
+if [ -n "$INSTALL_URL" ]; then
+  echo "install source: $INSTALL_URL  (real remote)"
+else
+  git clone --quiet --bare "$REPO" "$ORIGIN"
+  INSTALL_URL="git+file://$ORIGIN"
+  echo "install source: $INSTALL_URL  (bare clone standing in for GitHub)"
+  echo "commit        : $(git --git-dir="$ORIGIN" rev-parse --short HEAD) $(git --git-dir="$ORIGIN" log -1 --pretty=%s)"
+fi
 echo
 
 # A throwaway profile, seeded from the real desktop one but with this plugin removed.
@@ -57,7 +65,7 @@ PY
 export DSH_HOME="$ROOT"
 
 echo "=== install from the git URL ==="
-"$DSH" plugin --profile gi add "git+file://$ORIGIN" 2>&1 | tail -3 || true
+"$DSH" plugin --profile gi add "$INSTALL_URL" 2>&1 | tail -3 || true
 rm -f "$PROFILE"/*.lock
 
 if ! grep -q 'dsh-codex-session' "$PROFILE/package.json"; then

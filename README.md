@@ -127,6 +127,8 @@ npm run live-check              # 对真实本机 Codex 跑三步（工具调用
 npm run bypass-check            # 只给无害工具，断言 Codex 无法自行写文件或跑 shell
 ./scripts/verify-preset-pin.sh  # 隔离真实 Host：验证「新建会话选 Codex」与「给已存在的会话切 Codex」
                                 #   两条路径、部署默认被复原、标准会话不受影响
+npm run verify-install          # 把本仓库当远端装进全新 profile 并启动（也可对真实远端跑：
+                                #   INSTALL_URL=git+https://github.com/<你>/dsh-codex-session.git npm run verify-install）
 ../verify-codex-session.sh      # 在 /tmp 隔离 profile 中启动，确认所有 entry 无警告激活
 ```
 

@@ -28,7 +28,7 @@ cd /Users/alfredhuang/Documents/deepseek-harness/default-workspace/dsh-codex-ses
 
 # 仓库已经初始化并提交好了（分支 main）。先在 GitHub 网页上建一个空的公开仓库
 # dsh-codex-session（不要勾选 README / .gitignore / License，避免冲突），然后：
-git remote add origin https://github.com/alfredhuang/dsh-codex-session.git
+git remote add origin https://github.com/alfredhuang211/dsh-codex-session.git
 git push -u origin main
 ```
 
@@ -57,13 +57,13 @@ gh repo create dsh-codex-session --public --source=. --push
 ### 方式 A：直接从 GitHub 装（推荐，不用发 npm）
 
 ```sh
-dsh plugin --profile desktop add git+https://github.com/alfredhuang/dsh-codex-session.git
+dsh plugin --profile desktop add git+https://github.com/alfredhuang211/dsh-codex-session.git
 ```
 
 锁版本（建议，避免上游改动影响你）：
 
 ```sh
-dsh plugin --profile desktop add git+https://github.com/alfredhuang/dsh-codex-session.git#v0.1.0
+dsh plugin --profile desktop add git+https://github.com/alfredhuang211/dsh-codex-session.git#v0.1.0
 ```
 
 ### 方式 B：从 npm 装（需要你先 `npm publish`）
@@ -78,7 +78,7 @@ dsh plugin --profile desktop add dsh-codex-session
 ### 方式 C：手动克隆（内网 / 离线 / 想改代码）
 
 ```sh
-git clone https://github.com/alfredhuang/dsh-codex-session.git ~/plugins/dsh-codex-session
+git clone https://github.com/alfredhuang211/dsh-codex-session.git ~/plugins/dsh-codex-session
 dsh plugin --profile desktop add ~/plugins/dsh-codex-session
 ```
 
@@ -105,7 +105,7 @@ git tag v0.1.1 && git push && git push --tags
 其他设备更新（git 方式）——按 tag 装即锁版本，不指定 tag 则取默认分支最新提交：
 
 ```sh
-dsh plugin --profile desktop add git+https://github.com/alfredhuang/dsh-codex-session.git#v0.1.1
+dsh plugin --profile desktop add git+https://github.com/alfredhuang211/dsh-codex-session.git#v0.1.1
 ```
 
 ---

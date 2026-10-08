@@ -62,11 +62,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/alfredhuang/dsh-codex-session.git"
+    "url": "git+https://github.com/alfredhuang211/dsh-codex-session.git"
   },
-  "homepage": "https://github.com/alfredhuang/dsh-codex-session#readme",
+  "homepage": "https://github.com/alfredhuang211/dsh-codex-session#readme",
   "bugs": {
-    "url": "https://github.com/alfredhuang/dsh-codex-session/issues"
+    "url": "https://github.com/alfredhuang211/dsh-codex-session/issues"
   },
   "publishConfig": {
     "access": "public",

@@ -13,7 +13,7 @@ Codex 请求调用工具时，插件把它转成真正的 DSH `tool-call`，由 
 
 ```sh
 # 从 GitHub 直接安装（零依赖，不需要先发 npm）
-dsh plugin --profile desktop add git+https://github.com/alfredhuang/dsh-codex-session.git
+dsh plugin --profile desktop add git+https://github.com/alfredhuang211/dsh-codex-session.git
 
 # 或已发布到 npm 时：
 dsh plugin --profile desktop add dsh-codex-session

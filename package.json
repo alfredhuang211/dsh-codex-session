@@ -35,6 +35,7 @@
   },
   "files": [
     "LICENSE",
+    "PUBLISHING.md",
     "README.md",
     "SPEC-provider.md",
     "cordis.patch.yml",
@@ -47,6 +48,7 @@
     "scripts/preset-probe/cordis.patch.yml",
     "scripts/preset-probe/lib/index.js",
     "scripts/preset-probe/package.json",
+    "scripts/verify-install-from-git.sh",
     "scripts/verify-preset-pin.sh"
   ],
   "keywords": [
@@ -75,6 +77,7 @@
     "live-check": "node scripts/live-check.mjs",
     "bypass-check": "node scripts/bypass-check.mjs",
     "verify-preset-pin": "./scripts/verify-preset-pin.sh",
-    "models-check": "node scripts/models-check.mjs"
+    "models-check": "node scripts/models-check.mjs",
+    "verify-install": "./scripts/verify-install-from-git.sh"
   }
 }

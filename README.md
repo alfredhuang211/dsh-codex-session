@@ -9,6 +9,20 @@ Codex 请求调用工具时，插件把它转成真正的 DSH `tool-call`，由 
 
 界面完全使用 DSH 桌面既有 UI，不新开窗口、不改任何 DSH 包、不遮蔽任何内置插槽。
 
+## 安装
+
+```sh
+# 从 GitHub 直接安装（零依赖，不需要先发 npm）
+dsh plugin --profile desktop add git+https://github.com/alfredhuang/dsh-codex-session.git
+
+# 或已发布到 npm 时：
+dsh plugin --profile desktop add dsh-codex-session
+```
+
+装完**重启 DSH 桌面 App**。前提：目标设备已装 DSH 桌面版（≥ 0.2.0-rc.2），且 `codex` CLI 可用并已登录。
+
+发布流程、锁版本、升级以及手动克隆等其他装法见 **[PUBLISHING.md](PUBLISHING.md)**。
+
 ## 组成
 
 | 层 | 文件 | 内容 |

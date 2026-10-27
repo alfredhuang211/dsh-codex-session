@@ -61,7 +61,10 @@
           - id: persona
             name: '@deepseek-ai/dsh-persona'
             config:
-              suffix: Your working directory is {{cwd}}.
+              # DSH 0.2.1+ registers only `provider` and `model` as prompt variables. The loop does
+              # not register a `{{cwd}}` variable, and an unresolved reference fails prompt assembly
+              # before any model request; the working-directory service already supplies the current
+              # directory as required runtime context, so no persona suffix is needed here.
               prefix: You are a coding agent powered by the {{model}} model.
           - id: agent-instructions
             name: '@deepseek-ai/dsh-agent-instructions'
